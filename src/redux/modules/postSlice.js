@@ -5,7 +5,7 @@ const Postapi = new PostApi();
 
 const initialState = {
   data: [],
-  // paging: { load: true, size: 6, page: 1, sortBy: "createdAt" },
+  paging: { start: null, next: null, size: 3 },
   is_loading: false,
 };
 
@@ -18,15 +18,15 @@ export const getPostAxios = createAsyncThunk(
   "post/getPostAxios",
   async (_, { dispatch, getState }) => {
     dispatch(setLoading(true));
-    // const { page, size, sortBy } = getState().post.paging;
-    const response = await Postapi.getPosts();
+    const { start, next, size } = getState().post.paging;
+    const response = await Postapi.getPosts({ start, next, size });
     dispatch(setPost(response));
     console.log(" get 된거야? ", response);
     return response.data;
   }
 );
 
-// reducer action 만들기..
+// reducer action 만들기
 export const postSlice = createSlice({
   name: "post",
   initialState,
@@ -40,6 +40,11 @@ export const postSlice = createSlice({
       console.log(state.data, "setPost data");
       //state.data = [...state.data, ...postlist];
     },
+    setNewPaging: (state, action) => {
+      state.data = initialState.data;
+      state.paging.load = true;
+      state.paging.next = null;
+    },
   },
   extraReducers: {
     [getPostAxios.fulfilled]: (state, action) => {
@@ -50,6 +55,6 @@ export const postSlice = createSlice({
   },
 });
 
-export const { setLoading, setPost } = postSlice.actions;
+export const { setLoading, setPost, setNewPaging } = postSlice.actions;
 
 export default postSlice.reducer;

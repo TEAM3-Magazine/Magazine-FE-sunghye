@@ -5,6 +5,9 @@ import TestAPI from "../pages/TestAPI";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 import styled, { ThemeProvider } from "styled-components";
 
+//
+import { useSelector, useDispatch } from "react-redux";
+
 // pages
 import CardForm from "../pages/CardForm";
 import SignIn from "../pages/SignIn";
@@ -17,9 +20,23 @@ import Header from "../components/Header";
 // style
 import GlobalStyles from "../styled/GlobalStyles";
 import theme from "../styled/theme";
+import { useEffect } from "react";
+
+import { getPostAxios } from "../redux/modules/postSlice";
+import { getUserAxios } from "../redux/modules/userSlice";
 
 function App() {
-  // const Postapi = new PostApi();
+  const dispatch = useDispatch();
+  // 질문하기
+  const isLogin = useSelector((state) => state.user.is_login);
+  const hasToken = sessionStorage.getItem("token") ? true : false;
+
+  console.log("홈페이지 로그인됐니 ?", isLogin, hasToken);
+  useEffect(() => {
+    hasToken && dispatch(getUserAxios());
+    // dispatch(setNewPaging());
+    dispatch(getPostAxios());
+  }, []);
 
   return (
     <ThemeProvider theme={theme}>

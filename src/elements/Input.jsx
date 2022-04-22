@@ -12,6 +12,7 @@ const Input = (props) => {
     value,
     is_submit,
     onSubmit,
+    _ref,
   } = props;
 
   if (multiLine) {
@@ -23,6 +24,7 @@ const Input = (props) => {
           value={value}
           placeholder={placeholder}
           onChange={_onChange}
+          ref={_ref}
         />
       </Grid>
     );
@@ -42,9 +44,15 @@ const Input = (props) => {
                 onSubmit(e);
               }
             }}
+            ref={_ref}
           />
         ) : (
-          <ElInput type={type} placeholder={placeholder} onChange={_onChange} />
+          <ElInput
+            ref={_ref}
+            type={type}
+            placeholder={placeholder}
+            onChange={_onChange}
+          />
         )}
       </Grid>
     </React.Fragment>
@@ -60,6 +68,7 @@ Input.defaultProps = {
   _onChange: () => {},
   is_submit: false,
   onSubmit: () => {},
+  _ref: {},
 };
 
 const ElInput = styled.input`

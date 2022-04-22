@@ -1,9 +1,11 @@
 import React from "react";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import styled, { css } from "styled-components";
 import { Link } from "react-router-dom";
 import { BsFillBookmarkFill } from "react-icons/bs";
+
+import { signOutAxios } from "../redux/modules/userSlice";
 
 import Stack from "@mui/material/Stack";
 import Button from "@mui/material/Button";
@@ -15,6 +17,11 @@ const Header = (props) => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
+  const isLogin = useSelector((state) => state.user);
+  console.log(isLogin);
+  const hasToken = sessionStorage.getItem("token") ? true : false;
+  console.log("로그인 유무 ", isLogin, hasToken);
+
   const goToSignIn = () => {
     navigate("/signin", { replace: true });
   };
@@ -23,6 +30,9 @@ const Header = (props) => {
     navigate("/signup", { replace: true });
   };
 
+  const onSignOut = () => {
+    dispatch(signOutAxios({ navigate }));
+  };
   return (
     <HeaderContainer>
       <Link to="/">
@@ -30,12 +40,25 @@ const Header = (props) => {
       </Link>
 
       <Stack spacing={2} direction="row">
-        <Button variant="contained" onClick={goToSignIn}>
-          Sign in
-        </Button>
-        <Button variant="outlined" onClick={goToSignUp}>
-          Sign up
-        </Button>
+        {isLogin && hasToken ? (
+          <>
+            <Button variant="contained" onClick={goToSignIn}>
+              My account
+            </Button>
+            <Button variant="outlined" onClick={onSignOut}>
+              Sign out
+            </Button>
+          </>
+        ) : (
+          <>
+            <Button variant="contained" onClick={goToSignIn}>
+              Sign in
+            </Button>
+            <Button variant="outlined" onClick={goToSignUp}>
+              Sign up
+            </Button>
+          </>
+        )}
       </Stack>
     </HeaderContainer>
   );

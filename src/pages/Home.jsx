@@ -1,7 +1,7 @@
 import React, { useEffect } from "react";
 
 import Card from "../components/Card";
-
+import InfinityScroll from "../shared/InfinityScroll";
 import { Button, Grid, Image, Text } from "../elements";
 
 import styled from "styled-components";
@@ -15,12 +15,12 @@ import { useNavigate } from "react-router-dom";
 const Home = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
-  const { data, is_loading } = useSelector((state) => state.post);
+  const { data, is_loading, paging } = useSelector((state) => state.post);
   console.log("home data", data);
 
-  useEffect(() => {
-    dispatch(getPostAxios());
-  }, []);
+  // useEffect(() => {
+  //   dispatch(getPostAxios());
+  // }, []);
 
   const addPost = () => {
     // if (!isLogin) {
@@ -32,21 +32,29 @@ const Home = () => {
   };
 
   return (
-    <Grid margin="150px auto">
-      <ListBox>
-        {data.map((card) => (
-          <Card key={card.post_id} card={card} />
-        ))}
+    <InfinityScroll
+      callNext={() => {
+        dispatch(getPostAxios());
+      }}
+      is_next={paging.load ? true : false}
+      loading={is_loading}
+    >
+      <Grid margin="150px auto">
+        <ListBox>
+          {data.map((card) => (
+            <Card key={card.post_id} card={card} />
+          ))}
 
-        <Button
-          is_add
-          btnColor={({ theme }) => theme.colors.mainColor}
-          onClick={addPost}
-        >
-          <Plus />
-        </Button>
-      </ListBox>
-    </Grid>
+          <Button
+            is_add
+            btnColor={({ theme }) => theme.colors.mainColor}
+            onClick={addPost}
+          >
+            <Plus />
+          </Button>
+        </ListBox>
+      </Grid>
+    </InfinityScroll>
   );
 };
 
