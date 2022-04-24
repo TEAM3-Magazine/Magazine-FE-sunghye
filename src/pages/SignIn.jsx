@@ -1,20 +1,21 @@
 import React, { useRef } from "react";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 
+// slice
 import { signInAxios } from "../redux/modules/userSlice";
-import { Text, Input, Grid, Button } from "../elements";
-// import { getCookie, setCookie, deleteCookie } from "../shared/Cookie";
 
-// import { actionCreators as userActions } from "../redux/modules/user";
-// import { emailCheck } from "../shared/common";
+// elements
+import { Text, Input, Grid, Button } from "../elements";
 
 const SignIn = (props) => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
+
   const emailRef = useRef();
   const pwRef = useRef();
 
+  // 로그인 버튼 클릭시
   const onSignIn = (e) => {
     e.preventDefault();
 

@@ -1,16 +1,11 @@
 import React, { memo } from "react";
-import { useSelector } from "react-redux";
-import { useNavigate, useParams } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import styled, { css } from "styled-components";
 import CardContent from "./CardContent";
 import CardFooter from "./CardFooter";
 import CardHeader from "./CardHeader";
 
 const Card = memo(({ card }) => {
-  // const isLogin = useSelector((state) => state.user.is_login);
-  // const param = useParams();
-  // const isDetail = param.postId ? true : false;
-
   const {
     post_id,
     user_id,
@@ -21,18 +16,11 @@ const Card = memo(({ card }) => {
     post_like,
   } = card;
 
-  const navigate = useNavigate();
-
-  // const goToDetail = (e) => {
-  //   !isDetail && isLogin && navigate(`/post/${boardId}`);
-  // };
-
   return (
-    // <CardBox onClick={goToDetail} className={isDetail ? "detail" : "main"}>
     <CardBox>
-      <CardHeader user_name={user_name} created_at={created_at} />
+      <CardHeader card={card} />
       <CardContent contents={contents} image_url={image_url} />
-      <CardFooter post_like={post_like} />
+      <CardFooter post_like={post_like} post_id={post_id} />
     </CardBox>
   );
 });
@@ -44,10 +32,7 @@ const CardBox = styled.article`
       position: relative;
       display: flex;
       flex-direction: column;
-      /* margin: 0.5em 0.3em;
-      padding: 1em; */
       width: calc(100%-0.6em);
-
       margin-bottom: 20px;
 
       border-radius: 6px;

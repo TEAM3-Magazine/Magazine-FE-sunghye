@@ -1,32 +1,41 @@
 import React from "react";
-import styled, { css } from "styled-components";
 import { Link } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
+// slice
+import { deletePostAxios } from "../redux/modules/postSlice";
 
 // react = icons
-import { BsFillBookmarkFill } from "react-icons/bs";
+import styled, { css } from "styled-components";
 import { TiTimes } from "react-icons/ti";
 import { AiTwotoneEdit } from "react-icons/ai";
 
-import { Button, Grid, Image, Text } from "../elements";
+// elements
+import { Grid, Image, Text } from "../elements";
 
-import { useNavigate } from "react-router-dom";
-import { useDispatch, useSelector } from "react-redux";
-import { deletePostAxios } from "../redux/modules/postSlice";
+// timeago function
 import TimeAgo from "../elements/TimeAgo";
 
 const CardHeader = ({ card }) => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
-
-  const user_id = useSelector((state) => state.user.user_info.user_id);
   const post_id = card.post_id;
   const post_author = card.user_id;
+  const user_id = useSelector((state) => state.user.user_info.user_id);
 
+  // 포스트 삭제
   const handleDelete = () => {
     console.log("first");
     dispatch(deletePostAxios({ post_author, post_id, navigate }));
   };
 
+  const handleEdit = () => {
+    if (card.user_id !== user_id) {
+      return alert("You don't have any right to edit the post");
+    } else {
+      navigate(`/edit/${card.post_id}`, { state: { card } });
+    }
+  };
   return (
     <Grid is_flex padding="16px">
       <Grid is_flex width="auto">
@@ -34,14 +43,10 @@ const CardHeader = ({ card }) => {
         <Text bold>{card.user_name}</Text>
       </Grid>
       <Grid is_flex width="auto">
-        {/* <Text>{card.created_at}</Text> */}
         <TimeAgo timestamp={card.created_at} />
-
-        <Link to={`/edit/${card.post_id}`} state={{ card }}>
-          <button>
-            <Edit />
-          </button>
-        </Link>
+        <button onClick={handleEdit}>
+          <Edit />
+        </button>
         <button>
           <Delete onClick={handleDelete} />
         </button>

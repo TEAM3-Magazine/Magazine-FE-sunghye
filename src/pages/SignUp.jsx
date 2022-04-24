@@ -13,8 +13,6 @@ const SignUp = (props) => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
-  const isLogin = useSelector((state) => state.user.is_login);
-
   // ref
   const emailRef = useRef();
   const userNameRef = useRef();
@@ -32,19 +30,9 @@ const SignUp = (props) => {
     const pwCheck = pwCheckRef.current?.value;
 
     if (email === "" || pw === "" || userName === "" || pwCheck === "") {
-      window.alert("아이디, 패스워드, 닉네임을 모두 입력해주세요!");
+      window.alert("All values cannot be empty.");
       return;
     }
-
-    // if (!emailCheck(id)) {
-    //   window.alert("이메일 형식이 맞지 않습니다!");
-    //   return;
-    // }
-
-    // if (pwd !== pwd_check) {
-    //   window.alert("패스워드와 패스워드 확인이 일치하지 않습니다!");
-    //   return;
-    // }
 
     const registerData = {
       user_email: email,
@@ -53,10 +41,6 @@ const SignUp = (props) => {
       user_password_check: pwCheck,
     };
 
-    // user 리덕스 signupFB에 id, pwd, user_name 넘겨줌
-    console.log("sign up data!! ", registerData);
-    // signUpAxios함수에 navigate도 같이보냄 (/login)으로 이동하기 위함,
-    // api에서도
     dispatch(signUpAxios({ registerData, navigate }));
     return;
   };

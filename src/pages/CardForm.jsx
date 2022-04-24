@@ -1,55 +1,132 @@
-import React from "react";
-import { Grid, Text, Button, Image, Input } from "../elements";
+import React, { useEffect, useRef } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { useLocation, useNavigate, useParams } from "react-router-dom";
+import styled from "styled-components";
+
+// slices
+import { addPostAxios, updatePostAxios } from "../redux/modules/postSlice";
+
+// elements
+import { Grid, Text, Button, Image } from "../elements";
+
+// image
+import { setPreview } from "../redux/modules/imageSlice";
 
 const CardForm = () => {
-  const preview = "http://via.placeholder.com/400x300";
+  const navigate = useNavigate();
+  const dispatch = useDispatch();
+  const location = useLocation();
+
+  // 포스트 편집 위해 필요한 ref
+  const param = useParams();
+  const is_edit = param?.post_id ? true : false;
+  const contentRef = useRef();
+  const fileRef = useRef();
+  const isLogin = useSelector((state) => state.user.is_login);
+  const hasToken = sessionStorage.getItem("token") ? true : false;
+  // console.log(isLogin, hasToken, "로그인했니?");
+
+  useEffect(() => {
+    if (is_edit) {
+      dispatch(setPreview(location.state.card?.image_url));
+      contentRef.current.value = location.state.card?.contents;
+    }
+    return () => {
+      dispatch(setPreview(null));
+    };
+  }, []);
+
+  // 업로드 이미지 미리 보기
+  const preview = useSelector((state) => state.image.preview);
+
+  const selectPhoto = (e) => {
+    const fileReader = new FileReader();
+    const file = fileRef.current.files[0];
+
+    fileReader.readAsDataURL(file);
+
+    fileReader.onloadend = () => {
+      dispatch(setPreview(fileReader.result));
+    };
+  };
+
+  // 포스트 작성 or 편집 함수
+  const addNewPost = (e) => {
+    e.preventDefault();
+
+    const content = contentRef.current.value;
+    if (content === "" || !preview) {
+      alert("please attach the image and fill in the context");
+      return;
+    }
+
+    const newPost = {
+      contents: content,
+      image_url: null,
+    };
+
+    !is_edit
+      ? dispatch(addPostAxios({ postData: newPost, navigate }))
+      : dispatch(
+          updatePostAxios({
+            postData: {
+              contents: content,
+              image_url: location.state.card?.image_url,
+            },
+            post_id: param.post_id,
+            navigate,
+          })
+        );
+  };
 
   return (
-    <React.Fragment>
-      <Grid padding="16px">
-        <Text margin="16px 0px" size="36px" bold>
-          {/* {is_edit ? "게시글 수정" : "게시글 작성"} */}
-          "게시글 작성 "
-        </Text>
-        <Grid is_flex>
-          {/* Upload :  이미지 파일 따로 가공해 받아옴 */}
-          {/* <Upload /> */}upload
-        </Grid>
-      </Grid>
-
-      <Grid>
-        <Grid padding="16px">
-          <Text margin="0px" size="24px" bold>
-            미리보기
+    <>
+      <form onSubmit={addNewPost}>
+        <Grid margin="150px 0 0 0">
+          <Text margin="16px 0px" size="36px" bold>
+            {is_edit ? "Edit Post" : "Create Post"}
           </Text>
+          <Grid padding="16px 0px">
+            <input ref={fileRef} onChange={selectPhoto} type="file" />
+          </Grid>
         </Grid>
-        <Image
-          shape="rectangle"
-          preview_img
-          src={preview ? preview : "http://via.placeholder.com/400x300"}
-        />
-      </Grid>
 
-      <Grid padding="16px">
-        <Input
-          value={"contents"}
-          // _onChange={"changeContents"}
-          label="게시글 내용"
-          placeholder="게시글 작성"
-          multiLine
-        />
-      </Grid>
+        <Grid>
+          <Text margin="16px 0px" size="24px" bold>
+            Preview
+          </Text>
+          <Image
+            shape="rectangle"
+            preview_img
+            src={preview ? preview : "http://via.placeholder.com/400x300"}
+          />
+        </Grid>
 
-      <Grid padding="16px">
-        <Button> 게시글 작성</Button>
-        {/* {is_edit ? (
-        <Button text="게시글 수정" _onClick={editPost}></Button>
-      ) : (
-        <Button text="게시글 작성" _onClick={addPost}></Button>
-      )} */}
-      </Grid>
-    </React.Fragment>
+        <Grid padding="16px">
+          <TextBox
+            ref={contentRef}
+            name="content"
+            cols="30"
+            rows="10"
+            placeholder="Write a contents"
+            autoFocus
+          ></TextBox>
+        </Grid>
+
+        <Grid padding="16px">
+          {is_edit ? (
+            <Button text="Edit post"></Button>
+          ) : (
+            <Button text="Post"></Button>
+          )}
+        </Grid>
+      </form>
+    </>
   );
 };
 
+const TextBox = styled.textarea`
+  display: block;
+  width: 100%;
+`;
 export default CardForm;

@@ -1,26 +1,22 @@
 import React from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
-import styled, { css } from "styled-components";
 import { Link } from "react-router-dom";
-import { BsFillBookmarkFill } from "react-icons/bs";
+import styled, { css } from "styled-components";
 
+// slice
 import { signOutAxios } from "../redux/modules/userSlice";
 
+// mui
 import Stack from "@mui/material/Stack";
 import Button from "@mui/material/Button";
-
-// import Button from "../elements/Button";
-import Grid from "../elements/Grid";
 
 const Header = (props) => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
   const isLogin = useSelector((state) => state.user);
-  console.log(isLogin);
   const hasToken = sessionStorage.getItem("token") ? true : false;
-  console.log("로그인 유무 ", isLogin, hasToken);
 
   const goToSignIn = () => {
     navigate("/signin", { replace: true });
@@ -101,22 +97,4 @@ const Title = styled.h1`
     `;
   }}
 `;
-
-// btn
-
-// const Button = styled.button`
-//   padding: 0.2em 0.3em;
-//   margin-left: 1em;
-//   border-radius: 4px;
-//   border: 1px solid lightgrey;
-//   box-shadow: 2px 2px 3px 1px rgba(0, 0, 0, 0.2);
-// `;
-
-// const Button = styled(button)`
-//   padding: 0.2em 0.3em;
-//   margin-left: 1em;
-//   border-radius: 4px;
-//   border: 1px solid lightgrey;
-//   box-shadow: 2px 2px 3px 1px rgba(0, 0, 0, 0.2);
-// `;
 export default Header;

@@ -1,60 +1,67 @@
-import React, { useEffect } from "react";
-
+import React, { useEffect, useState, useCallback } from "react";
+import _ from "lodash";
 import Card from "../components/Card";
-import InfinityScroll from "../shared/InfinityScroll";
-import { Button, Grid, Image, Text } from "../elements";
+import { Button, Grid, Spinner } from "../elements";
 
 import styled from "styled-components";
 import { TiPlus } from "react-icons/ti";
 
 // redux
-import { useDispatch, useSelector } from "react-redux";
-import { getPostAxios } from "../redux/modules/postSlice";
+import { useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 
 const Home = () => {
   const navigate = useNavigate();
-  const dispatch = useDispatch();
-  const { data, is_loading, paging } = useSelector((state) => state.post);
-  console.log("home data", data);
+  const { data } = useSelector((state) => state.post);
 
-  // useEffect(() => {
-  //   dispatch(getPostAxios());
-  // }, []);
+  // const isLogin = useSelector((state) => state.user.is_login);
+  const hasToken = sessionStorage.getItem("token") ? true : false;
+  // console.log(isLogin, hasToken, "home 로그인했니?");
 
+  // 무한스크롤
+  const [counter, setCounter] = useState(3);
+  const _handleScroll = _.throttle(() => {
+    const { innerHeight } = window;
+    const { scrollHeight } = document.documentElement;
+    const { scrollTop } = document.documentElement;
+    if (Math.round(scrollTop + innerHeight) >= scrollHeight) {
+      setCounter(counter + 3);
+    }
+  }, 300);
+  const handleScroll = useCallback(_handleScroll, [counter]);
+  useEffect(() => {
+    window.addEventListener("scroll", handleScroll, true);
+    return () => {
+      window.removeEventListener("scroll", handleScroll, true);
+    };
+  }, [handleScroll]);
+
+  // 포스트 작성
   const addPost = () => {
-    // if (!isLogin) {
-    //   alert("로그인 후 작성해주세요");
-    //   navigate("/login");
-    //   return;
-    // }
+    if (!hasToken) {
+      alert("you need to sign in first.");
+      navigate("/signin");
+      return;
+    }
     navigate("/post");
   };
 
   return (
-    <InfinityScroll
-      callNext={() => {
-        dispatch(getPostAxios());
-      }}
-      is_next={paging.load ? true : false}
-      loading={is_loading}
-    >
-      <Grid margin="150px auto">
-        <ListBox>
-          {data.map((card) => (
-            <Card key={card.post_id} card={card} />
-          ))}
-
-          <Button
-            is_add
-            btnColor={({ theme }) => theme.colors.mainColor}
-            onClick={addPost}
-          >
-            <Plus />
-          </Button>
-        </ListBox>
-      </Grid>
-    </InfinityScroll>
+    <Grid margin="150px auto">
+      <ListBox>
+        {data?.slice(0, counter).map((card) => (
+          <Card key={card.post_id} card={card} />
+        ))}
+        {data.length > counter ? <Spinner /> : null}
+        <Button
+          is_add
+          btnColor={({ theme }) => theme.colors.mainColor}
+          _onClick={addPost}
+        >
+          <Plus />
+        </Button>
+      </ListBox>
+    </Grid>
   );
 };
 
