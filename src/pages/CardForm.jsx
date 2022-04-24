@@ -1,14 +1,13 @@
 import React, { useEffect, useRef } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useLocation, useNavigate, useParams } from "react-router-dom";
-import styled from "styled-components";
-
 // slices
 import { addPostAxios, updatePostAxios } from "../redux/modules/postSlice";
-
 // elements
-import { Grid, Text, Button, Image } from "../elements";
-
+import { Grid, Text, Image } from "../elements";
+// styled
+import styled from "styled-components";
+import Button from "@mui/material/Button";
 // image
 import { setPreview } from "../redux/modules/imageSlice";
 
@@ -83,7 +82,7 @@ const CardForm = () => {
     <>
       <form onSubmit={addNewPost}>
         <Grid margin="150px 0 0 0">
-          <Text margin="16px 0px" size="36px" bold>
+          <Text margin="16px 0px" size="28px" bold>
             {is_edit ? "Edit Post" : "Create Post"}
           </Text>
           <Grid padding="16px 0px">
@@ -92,7 +91,7 @@ const CardForm = () => {
         </Grid>
 
         <Grid>
-          <Text margin="16px 0px" size="24px" bold>
+          <Text margin="16px 0px" size="20px" bold>
             Preview
           </Text>
           <Image
@@ -115,9 +114,27 @@ const CardForm = () => {
 
         <Grid padding="16px">
           {is_edit ? (
-            <Button text="Edit post"></Button>
+            <Button
+              type="submit"
+              style={{
+                backgroundColor: "#686ef3",
+                width: "100%",
+              }}
+              variant="contained"
+            >
+              Edit Post
+            </Button>
           ) : (
-            <Button text="Post"></Button>
+            <Button
+              type="submit"
+              style={{
+                backgroundColor: "#686ef3",
+                width: "100%",
+              }}
+              variant="contained"
+            >
+              Post
+            </Button>
           )}
         </Grid>
       </form>

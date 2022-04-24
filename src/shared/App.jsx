@@ -14,11 +14,13 @@ import { getUserAxios, setSignInFalse } from "../redux/modules/userSlice";
 // components & element
 import Header from "../components/Header";
 import { Spinner, Grid } from "../elements";
+
 // pages
 const Home = lazy(() => import("../pages/Home"));
 const CardForm = lazy(() => import("../pages/CardForm"));
 const SignIn = lazy(() => import("../pages/SignIn"));
 const SignUp = lazy(() => import("../pages/SignUp"));
+const MyAccount = lazy(() => import("../pages/MyAccount"));
 // import TestAPI from "../pages/TestAPI";
 
 function App() {
@@ -50,6 +52,7 @@ function App() {
             <Route path="/edit/:post_id" element={<CardForm />} />
             <Route path="/signin" element={<SignIn />} />
             <Route path="/signup" element={<SignUp />} />
+            <Route path="/account" element={<MyAccount />} />
             {/* <Route path="/test" element={<TestAPI />} /> */}
           </Routes>
         </Container>

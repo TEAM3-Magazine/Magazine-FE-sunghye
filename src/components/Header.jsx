@@ -26,6 +26,10 @@ const Header = (props) => {
     navigate("/signup", { replace: true });
   };
 
+  const goToMyAccount = () => {
+    navigate("/account", { replace: true });
+  };
+
   const onSignOut = () => {
     dispatch(signOutAxios({ navigate }));
   };
@@ -38,10 +42,23 @@ const Header = (props) => {
       <Stack spacing={2} direction="row">
         {isLogin && hasToken ? (
           <>
-            <Button variant="contained" onClick={goToSignIn}>
+            <Button
+              style={{
+                backgroundColor: "#686ef3",
+              }}
+              variant="contained"
+              onClick={goToMyAccount}
+            >
               My account
             </Button>
-            <Button variant="outlined" onClick={onSignOut}>
+            <Button
+              style={{
+                color: "#686ef3",
+                border: "1px solid #686ef3",
+              }}
+              variant="outlined"
+              onClick={onSignOut}
+            >
               Sign out
             </Button>
           </>

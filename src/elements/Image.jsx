@@ -21,11 +21,11 @@ const Image = (props) => {
     );
   }
 
-  return (
-    <React.Fragment>
-      <ImageDefault {...styles}></ImageDefault>
-    </React.Fragment>
-  );
+  // return (
+  //   <React.Fragment>
+  //     <ImageDefault {...styles}></ImageDefault>
+  //   </React.Fragment>
+  // );
 };
 
 Image.defaultProps = {
@@ -43,7 +43,6 @@ const AspectInner = styled.div`
   position: relative;
   padding-top: 75%;
   overflow: hidden;
-
   background: url("${(props) => props.src}") 0 -120px;
 
   ${(props) =>

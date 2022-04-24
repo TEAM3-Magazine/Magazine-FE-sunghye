@@ -27,7 +27,7 @@ const Home = () => {
     if (Math.round(scrollTop + innerHeight) >= scrollHeight) {
       setCounter(counter + 3);
     }
-  }, 300);
+  }, 200);
   const handleScroll = useCallback(_handleScroll, [counter]);
   useEffect(() => {
     window.addEventListener("scroll", handleScroll, true);
