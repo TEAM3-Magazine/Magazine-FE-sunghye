@@ -40,7 +40,6 @@ class PostApi {
 
     return axios(addpostConfig)
       .then((res) => {
-        console.log(res);
         alert("your post has been created");
         navigate(`/`, { replace: true });
         return res.data;

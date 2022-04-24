@@ -44,7 +44,6 @@ export const addPostAxios = createAsyncThunk(
 export const updatePostAxios = createAsyncThunk(
   "post/updatePostAxios",
   async ({ postData, post_id, navigate }, { dispatch, getState }) => {
-    console.log(postData, "thunk");
     dispatch(setLoading(true));
     const _image = getState().image.preview;
     const _userId = getState().user.user_info.user_id;
