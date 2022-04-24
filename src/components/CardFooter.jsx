@@ -1,13 +1,14 @@
 import React, { useEffect, useState } from "react";
-import styled, { css } from "styled-components";
-
-import { Button, Grid, Image, Text } from "../elements";
-import { FaHeart } from "react-icons/fa";
-import { useLocation, useNavigate } from "react-router-dom";
-import { likeUpAxios, likeDownAxios } from "../redux/modules/postSlice";
-import { AiOutlineHeart, AiFillHeart } from "react-icons/ai";
-
+import { useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
+
+// slices
+import { likeUpAxios, likeDownAxios } from "../redux/modules/postSlice";
+
+// styled, elements
+import styled from "styled-components";
+import { Grid, Text } from "../elements";
+import { AiOutlineHeart, AiFillHeart } from "react-icons/ai";
 
 const CardFooter = ({ post_like, post_id }) => {
   const dispatch = useDispatch();
@@ -59,18 +60,6 @@ const HeartCheck = styled(AiFillHeart)`
   font-size: 24px;
   cursor: pointer;
   background-color: "#686ef3";
-`;
-
-const LikeBtn = styled.span`
-  color: grey;
-  cursor: pointer;
-  transition: all 120ms ease-in;
-  &:hover {
-    color: ${({ theme }) => theme.colors.mainColor};
-  }
-  &.like {
-    /* color: ${({ theme }) => theme.colors.mainColor}; */
-  }
 `;
 
 export default CardFooter;
