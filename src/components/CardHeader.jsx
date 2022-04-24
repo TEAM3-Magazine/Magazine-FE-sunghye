@@ -1,5 +1,5 @@
 import React from "react";
-import { Link } from "react-router-dom";
+
 import { useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 // slice
@@ -25,13 +25,12 @@ const CardHeader = ({ card }) => {
 
   // 포스트 삭제
   const handleDelete = () => {
-    console.log("first");
     dispatch(deletePostAxios({ post_author, post_id, navigate }));
   };
 
   const handleEdit = () => {
     if (card.user_id !== user_id) {
-      return alert("You don't have any right to edit the post");
+      return alert("you don't have permission to edit this post");
     } else {
       navigate(`/edit/${card.post_id}`, { state: { card } });
     }

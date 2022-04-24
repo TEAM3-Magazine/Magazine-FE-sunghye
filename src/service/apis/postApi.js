@@ -41,9 +41,8 @@ class PostApi {
     return axios(addpostConfig)
       .then((res) => {
         console.log(res);
-        alert("The post has been created");
+        alert("your post has been created");
         navigate(`/`, { replace: true });
-        console.log("res data@#@#@#", res.data);
         return res.data;
       })
       .catch((err) => {
@@ -66,13 +65,13 @@ class PostApi {
     return axios(deletepostConfig)
       .then((res) => {
         console.log(res);
-        alert("The post has been deleted");
+        alert("your post has been deleted");
         dispatch(getPostAxios());
         return res.data;
       })
       .catch((err) => {
         console.log(err.response.data.msg);
-        alert("you can not delete the post");
+        alert("You don't have permission to delete this post");
         return;
       });
   }
@@ -91,7 +90,7 @@ class PostApi {
 
     return axios(editpostConfig)
       .then((res) => {
-        alert("The post has been updated");
+        alert("your post has been updated");
         navigate("/", { replace: true });
         dispatch(getPostAxios());
         return res.data;
@@ -122,8 +121,8 @@ class PostApi {
       .catch((err) => {
         console.log(err.response);
         // navigate("/login", { replace: true });
-        alert("You must log in.");
-        navigate("/login", { replace: true });
+        alert("You need to sign in first.");
+        navigate("/signin", { replace: true });
       });
   }
 

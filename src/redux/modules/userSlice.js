@@ -1,4 +1,3 @@
-import { async } from "@firebase/util";
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import UserApi from "../../service/apis/userApi";
 
@@ -94,7 +93,7 @@ export const userSlice = createSlice({
     [signOutAxios.fulfilled]: (state, action) => {
       state.user_info = initialState.user_info;
       state.is_login = false;
-      alert("You have successfully been signed out");
+      alert("you have successfully signed out");
     },
   },
 });

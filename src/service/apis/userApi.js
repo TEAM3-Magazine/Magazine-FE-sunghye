@@ -59,7 +59,6 @@ class UserApi {
     return axios(signinConfig)
       .then((res) => {
         // console.log(res, "⭕️ user/login api 잘 받아옴 ");
-        alert("Successful sign in 🐣");
         navigate("/", { replace: true });
         return res.data;
       })
@@ -80,7 +79,7 @@ class UserApi {
 
     return axios(signoutConfig)
       .then((res) => {
-        alert("Successful sign out 😀");
+        alert("you have successfully signed out😀");
         navigate("/", { replace: true });
         return true;
       })
