@@ -17,7 +17,7 @@ const MyAccount = () => {
 
   const [isMyPostsActived, setIsMyPostsActived] = useState(true);
 
-  const btnToggle = (e, newAlignment) => {
+  const btnToggle = (e) => {
     if (e.currentTarget.id === "your_posts") {
       setIsMyPostsActived(true);
     } else {
@@ -122,11 +122,11 @@ const Div = styled.div`
 `;
 
 const ElContainer = styled.div`
-  margin: 0 2rem;
+  margin: 0;
   display: flex;
-  flex-wrap: wrap;
-  gap: 3rem;
-  justify-content: space-around;
+
+  gap: 2rem;
+  justify-content: space-between;
 `;
 const El = styled.div`
   display: flex;

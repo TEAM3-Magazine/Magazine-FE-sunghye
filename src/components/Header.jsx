@@ -64,10 +64,23 @@ const Header = (props) => {
           </>
         ) : (
           <>
-            <Button variant="contained" onClick={goToSignIn}>
+            <Button
+              style={{
+                backgroundColor: "#686ef3",
+              }}
+              variant="contained"
+              onClick={goToSignIn}
+            >
               Sign in
             </Button>
-            <Button variant="outlined" onClick={goToSignUp}>
+            <Button
+              style={{
+                color: "#686ef3",
+                border: "1px solid #686ef3",
+              }}
+              variant="outlined"
+              onClick={goToSignUp}
+            >
               Sign up
             </Button>
           </>
@@ -106,7 +119,7 @@ const Title = styled.h1`
     return css`
       color: ${colors.black};
       font-size: ${fontSizes.lg};
-      font-weight: 600;
+      font-weight: 500;
 
       ${device.tablet} {
         font-size: ${fontSizes.xl};

@@ -6,7 +6,10 @@ import { useNavigate } from "react-router-dom";
 import { signInAxios } from "../redux/modules/userSlice";
 
 // elements
-import { Text, Input, Grid, Button } from "../elements";
+import { Text, Input, Grid } from "../elements";
+
+// mui
+import Button from "@mui/material/Button";
 
 const SignIn = (props) => {
   const navigate = useNavigate();
@@ -51,7 +54,16 @@ const SignIn = (props) => {
             <Input placeholder="password" type="password" _ref={pwRef} />
           </Grid>
 
-          <Button text="SIGN IN"></Button>
+          <Button
+            type="submit"
+            style={{
+              backgroundColor: "#686ef3",
+              width: "100%",
+            }}
+            variant="contained"
+          >
+            sign in
+          </Button>
         </Grid>
       </form>
     </React.Fragment>

@@ -1,13 +1,13 @@
-import React, { useRef, createRef } from "react";
-import { Text, Input, Grid, Button } from "../elements";
-// import { getCookie, setCookie, deleteCookie } from "../shared/Cookie";
-import { useDispatch, useSelector } from "react-redux";
+import React, { useRef } from "react";
+import { Text, Input, Grid } from "../elements";
+import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
 
 // sign up reducer
 import { signUpAxios } from "../redux/modules/userSlice";
-// import { actionCreators as userActions } from "../redux/modules/user";
-// import { emailCheck } from "../shared/common";
+
+// mui
+import Button from "@mui/material/Button";
 
 const SignUp = (props) => {
   const dispatch = useDispatch();
@@ -74,7 +74,16 @@ const SignUp = (props) => {
             </Grid>
           </Grid>
 
-          <Button text="SIGN UP"></Button>
+          <Button
+            type="submit"
+            style={{
+              backgroundColor: "#686ef3",
+              width: "100%",
+            }}
+            variant="contained"
+          >
+            sign up
+          </Button>
         </Grid>
       </form>
     </React.Fragment>

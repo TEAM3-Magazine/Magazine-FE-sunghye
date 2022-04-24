@@ -6,8 +6,8 @@ const GlobalStyles = createGlobalStyle`
   ${reset}
 
   @font-face {
-    font-family: 'Lato', sans-serif;
-    src: url();
+    font-family: 'Mukta', sans-serif;
+    src: url('https://fonts.googleapis.com/css2?family=Mukta:wght@400;500&display=swap');
     font-weight: normal;
     font-style: normal;
   }
@@ -27,6 +27,8 @@ const GlobalStyles = createGlobalStyle`
     min-height: 100vh-60px;
     background-color: #f1f3f4;
     font-family: 'Pretendard-Regular';
+    font-family: 'Mukta', sans-serif;
+
   
     padding: 0px 3rem;
    
