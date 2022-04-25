@@ -65,7 +65,7 @@ class PostApi {
       .then((res) => {
         console.log(res);
         alert("your post has been deleted");
-        dispatch(getPostAxios());
+        // dispatch(getPostAxios());
         return res.data;
       })
       .catch((err) => {
@@ -91,7 +91,7 @@ class PostApi {
       .then((res) => {
         alert("your post has been updated");
         navigate("/", { replace: true });
-        dispatch(getPostAxios());
+        // dispatch(getPostAxios());
         return res.data;
       })
       .catch((err) => {
@@ -108,12 +108,13 @@ class PostApi {
       method: "post",
       url: `${this.base}/api/post/${post_id}/like`,
       headers: {
+        "Content-Type": "application/json",
         Authorization: `Bearer ${this.getToken()}`,
       },
     };
     return axios(likeUpConfig)
       .then((res) => {
-        return true;
+        return res;
       })
       .catch((err) => {
         console.log(err.response);
@@ -134,7 +135,7 @@ class PostApi {
 
     return axios(likeDownConfig)
       .then((res) => {
-        return true;
+        return res;
       })
       .catch((err) => {
         console.log(err.response);

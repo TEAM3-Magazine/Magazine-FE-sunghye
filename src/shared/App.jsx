@@ -33,7 +33,7 @@ function App() {
   useEffect(() => {
     hasToken && dispatch(getUserAxios());
     !hasToken && dispatch(setSignInFalse(false));
-  }, [hasToken]);
+  }, [dispatch, hasToken]);
 
   useEffect(() => {
     dispatch(getPostAxios());

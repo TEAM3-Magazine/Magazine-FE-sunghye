@@ -97,7 +97,7 @@ const CardForm = () => {
           <Image
             shape="rectangle"
             preview_img
-            src={preview ? preview : "http://via.placeholder.com/400x300"}
+            src={preview ?? "http://via.placeholder.com/400x300"}
           />
         </Grid>
 

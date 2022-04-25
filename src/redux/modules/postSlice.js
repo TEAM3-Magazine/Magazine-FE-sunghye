@@ -30,13 +30,14 @@ export const addPostAxios = createAsyncThunk(
     const _image = getState().image.preview;
     const _userid = getState().user.user_info.user_id;
     const url = await Storage.uploadFile(_image, _userid);
-    await Postapi.addPost({
+    const response = await Postapi.addPost({
       postData: { ...postData, image_url: url },
       navigate,
     });
+
+    // return { response, postData };
     // ...........ㅠㅠㅠ...
     dispatch(getPostAxios());
-    return;
   }
 );
 
@@ -47,25 +48,27 @@ export const updatePostAxios = createAsyncThunk(
     dispatch(setLoading(true));
     const _image = getState().image.preview;
     const _userId = getState().user.user_info.user_id;
-    let result;
+    let response;
+    let url;
     // 이미지 수정 안할 경우
     if (postData.image_url === _image) {
-      result = await Postapi.updatePost({
+      url = _image;
+      response = await Postapi.updatePost({
         post_id,
         postData,
         dispatch,
         navigate,
       });
     } else {
-      const url = await Storage.uploadFile(_image, _userId);
-      result = await Postapi.updatePost({
+      url = await Storage.uploadFile(_image, _userId);
+      response = await Postapi.updatePost({
         post_id,
         postData: { ...postData, image_url: url },
         dispatch,
         navigate,
       });
     }
-    return { result, postData, post_id };
+    return { response, postData, post_id, url };
   }
 );
 
@@ -74,6 +77,7 @@ export const deletePostAxios = createAsyncThunk(
   "post/deletePostAxios",
   async ({ post_id }, { dispatch }) => {
     await Postapi.deletePost({ post_id, dispatch });
+    dispatch(deletePost(post_id));
     return { post_id };
   }
 );
@@ -83,12 +87,8 @@ export const likeUpAxios = createAsyncThunk(
   "post/likeUpAxios",
   async ({ post_like, post_id, navigate }, { getState, dispatch }) => {
     const user_id = getState().user.user_info.user_id;
-    const _post = getState().post.data.find((p) => p.post_id === post_id);
     await Postapi.likeUpPost({ post_id, navigate });
-    // console.log("addPost 결과", post_id);
-    // ...........ㅠㅠㅠ...
-    dispatch(getPostAxios());
-    return { user_id, post_id, post_like, _post };
+    return { user_id, post_id };
   }
 );
 
@@ -97,12 +97,9 @@ export const likeDownAxios = createAsyncThunk(
   "post/likeDownAxios",
   async ({ post_like, post_id }, { getState, dispatch }) => {
     const user_id = getState().user.user_info.user_id;
-    const _post = getState().post.data.find((p) => p.post_id === post_id);
 
     await Postapi.likeDownPost({ post_id });
-    // ...........ㅠㅠㅠ...
-    dispatch(getPostAxios());
-    return { user_id, post_id, post_like, _post };
+    return { user_id, post_id };
   }
 );
 
@@ -118,41 +115,58 @@ export const postSlice = createSlice({
       const postlist = action.payload;
       state.data = postlist;
     },
+    addPost: (state, action) => {
+      const postlist = action.payload;
+      console.log(postlist);
+    },
+    deletePost: (state, action) => {
+      const post_id = action.payload;
+      state.data = state.data.filter((post) => {
+        return post.post_id !== post_id;
+      });
+    },
   },
   extraReducers: {
     [getPostAxios.fulfilled]: (state, action) => {
       state.is_loading = false;
     },
     [addPostAxios.fulfilled]: (state, action) => {
-      // state.data.push(action.payload);
       state.is_loading = false;
     },
     [deletePostAxios.fulfilled]: (state, action) => {
-      state.data = state.data.filter((post) => post.post_id !== action.payload);
+      state.is_loading = false;
     },
     [updatePostAxios.fulfilled]: (state, action) => {
-      if (!action.payload?.post_id) {
-        alert("Update could not complete");
-        return;
-      }
+      const { postData, post_id, url } = action.payload;
+      const postId = Number(post_id);
+      const idx = state.data.findIndex((p) => p.post_id === postId);
+      console.log(idx);
+      state.data[idx] = {
+        ...state.data[idx],
+        contents: postData.contents,
+        image_url: url,
+      };
       state.is_loading = false;
     },
     [likeUpAxios.fulfilled]: (state, action) => {
-      //  { user_id, post_id, post_like, _post };
-      // const { user_id, post_id, post_like, _post } = action.payload;
+      const { user_id, post_id } = action.payload;
+      const idx = state.data.findIndex((p) => p.post_id === post_id);
+      state.data[idx].post_like.push(user_id);
 
-      // // state.data.push(action.payload);
-
-      // console.log(state.post.data, "efawefewfeawf!!!-----");
-      // const index = state.post.findIndex((post) => post.post_id === post_id);
-      // console.log(index, "index!!!!");
-      // state.post.data[index].post_like.push(user_id);
-
+      state.is_loading = false;
+    },
+    [likeDownAxios.fulfilled]: (state, action) => {
+      const { user_id, post_id } = action.payload;
+      const idx = state.data.findIndex((p) => p.post_id === post_id);
+      state.data[idx].post_like = state.data[idx].post_like.filter(
+        (id) => id !== user_id
+      );
       state.is_loading = false;
     },
   },
 });
 
-export const { setLoading, setPost, setNewPaging } = postSlice.actions;
+export const { setLoading, setPost, setNewPaging, deletePost } =
+  postSlice.actions;
 
 export default postSlice.reducer;
