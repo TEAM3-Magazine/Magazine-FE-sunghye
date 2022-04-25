@@ -1,5 +1,3 @@
-## Magazine-FE-sunghye
-
 # Magazine Site - 항해 99 2-3주차 과제 📖
 
 ## Magazine Site 📖
@@ -19,7 +17,7 @@
 # Introduction 🙌
 
 > firebase service를 통해 구현했던 매거진 사이트를 백엔드에서 받아온 API로 붙여보는 시간을 가졌습니다.
-> 이번 시간에는 Redux toolkit을 공부하여 적용시켰습니다.
+> 이번 시간에는 axios와 Redux toolkit을 공부하여 적용시켰습니다.
 
 <br/><br/>
 
