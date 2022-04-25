@@ -111,8 +111,6 @@ class PostApi {
         Authorization: `Bearer ${this.getToken()}`,
       },
     };
-
-    console.log(likeUpConfig);
     return axios(likeUpConfig)
       .then((res) => {
         dispatch(getPostAxios());
@@ -120,7 +118,6 @@ class PostApi {
       })
       .catch((err) => {
         console.log(err.response);
-        // navigate("/login", { replace: true });
         alert("You need to sign in first.");
         navigate("/signin", { replace: true });
       });
