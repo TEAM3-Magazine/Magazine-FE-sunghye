@@ -113,7 +113,6 @@ class PostApi {
     };
     return axios(likeUpConfig)
       .then((res) => {
-        dispatch(getPostAxios());
         return true;
       })
       .catch((err) => {

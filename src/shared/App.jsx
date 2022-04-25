@@ -38,7 +38,6 @@ function App() {
   useEffect(() => {
     dispatch(getPostAxios());
   }, []);
-  const renderLoader = () => {};
   return (
     <ThemeProvider theme={theme}>
       <GlobalStyles />
@@ -63,6 +62,7 @@ function App() {
 
 const Container = styled.div`
   background-color: #f1f3f4;
+  margin: auto;
   ${({ theme }) => theme.device.tablet} {
   }
   ${({ theme }) => theme.device.desktop} {
