@@ -87,7 +87,6 @@ export const likeUpAxios = createAsyncThunk(
     await Postapi.likeUpPost({ post_id, navigate });
     // console.log("addPost 결과", post_id);
     // ...........ㅠㅠㅠ...
-    dispatch(getPostAxios());
     return { user_id, post_id, post_like, _post };
   }
 );

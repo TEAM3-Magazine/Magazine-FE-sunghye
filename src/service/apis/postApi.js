@@ -103,18 +103,19 @@ class PostApi {
   }
 
   // 좋아요
-  async likeUpPost({ post_id, navigate }) {
+  async likeUpPost({ post_id, navigate, dispatch }) {
     const likeUpConfig = {
       method: "post",
       url: `${this.base}/api/post/${post_id}/like`,
       headers: {
-        "Content-Type": "application/json",
         Authorization: `Bearer ${this.getToken()}`,
       },
     };
 
+    console.log(likeUpConfig);
     return axios(likeUpConfig)
       .then((res) => {
+        dispatch(getPostAxios());
         return true;
       })
       .catch((err) => {

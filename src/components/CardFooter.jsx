@@ -22,7 +22,7 @@ const CardFooter = ({ post_like, post_id }) => {
   useEffect(() => {
     let findLike = post_like.findIndex((p) => p === user_id);
     return findLike === -1 ? setIsLike(false) : setIsLike(true);
-  }, [like_cnt]);
+  }, [like_cnt, post_like, user_id]);
 
   const likeToggle = () => {
     if (!isLike) {
@@ -31,6 +31,8 @@ const CardFooter = ({ post_like, post_id }) => {
       dispatch(likeDownAxios({ post_like, post_id }));
     }
   };
+
+  console.log(isLike, "좋아요 했니? ");
 
   return (
     <Grid padding="16px" is_flex width="auto">
