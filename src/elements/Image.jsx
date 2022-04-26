@@ -30,7 +30,7 @@ const Image = (props) => {
 
 Image.defaultProps = {
   shape: "circle",
-  src: "https://firebasestorage.googleapis.com/v0/b/react-deep-99.appspot.com/o/images%2FGfqOcoismnVlroqVfxomqd5Sgvo2_1650078478923?alt=media&token=20c3ff5e-6f0f-405d-bff5-4427148ebba4",
+  src: "https://firebasestorage.googleapis.com/v0/b/react-deep-99.appspot.com/o/images%2F1_1650953258220?alt=media&token=5745dd69-f039-4ae5-ae93-c0dfbc04bb6e",
   size: 36,
   preview_img: false,
 };
