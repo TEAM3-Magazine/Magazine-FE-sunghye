@@ -16,7 +16,6 @@ const Home = () => {
 
   // const isLogin = useSelector((state) => state.user.is_login);
   const hasToken = sessionStorage.getItem("token") ? true : false;
-  // console.log(isLogin, hasToken, "home 로그인했니?");
 
   // 무한스크롤
   const [counter, setCounter] = useState(3);
@@ -65,9 +64,7 @@ const Home = () => {
   );
 };
 
-const ListBox = styled.ul`
-  flex-wrap: wrap;
-`;
+const ListBox = styled.div``;
 
 const Plus = styled(TiPlus)`
   font-size: 28px;

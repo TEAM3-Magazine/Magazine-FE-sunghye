@@ -84,7 +84,7 @@ const MyAccount = () => {
         </Stack>
 
         {isMyPostsActived ? (
-          <Grid padding="2rem 0">
+          <Grid padding="2rem 0" margin="0 auto">
             <Cards>
               {posts
                 .filter((post) => post?.user_id === user_info.user_id)
@@ -109,6 +109,11 @@ const MyAccount = () => {
   );
 };
 
+const ListBox = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+`;
 const Cards = styled.div`
   gap: 20px;
   width: 100%;

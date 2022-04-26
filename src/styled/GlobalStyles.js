@@ -24,13 +24,13 @@ const GlobalStyles = createGlobalStyle`
   }
 
   body {
+    margin : auto;
     min-height: 100vh-60px;
     background-color: #f1f3f4;
     font-family: 'Pretendard-Regular';
     font-family: 'Mukta', sans-serif;
-
-  
     padding: 0px 3rem;
+   
    
   }
 

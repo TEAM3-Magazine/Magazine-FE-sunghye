@@ -29,13 +29,14 @@ const CardBox = styled.article`
   ${({ bookmark, theme }) => {
     const { colors, device } = theme;
     return css`
-      margin: "auto";
+      margin-left: auto;
+      margin-right: auto;
       position: relative;
       display: flex;
       justify-content: center;
       flex-direction: column;
-      width: calc(100%-0.6em);
-      margin-bottom: 20px;
+
+      margin-bottom: 40px;
       border-radius: 6px;
       background-color: ${colors.white};
       transition: 300ms eash-in-out;

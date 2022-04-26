@@ -40,7 +40,6 @@ function App() {
   }, []);
   return (
     <ThemeProvider theme={theme}>
-      <GlobalStyles />
       <Header />
       {/* prettier-ignore */}
       <Suspense fallback= {<Grid margin="50vh auto"> <Spinner /> </Grid>} >

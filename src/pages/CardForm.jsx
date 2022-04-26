@@ -21,9 +21,6 @@ const CardForm = () => {
   const is_edit = param?.post_id ? true : false;
   const contentRef = useRef();
   const fileRef = useRef();
-  const isLogin = useSelector((state) => state.user.is_login);
-  const hasToken = sessionStorage.getItem("token") ? true : false;
-  // console.log(isLogin, hasToken, "로그인했니?");
 
   useEffect(() => {
     if (is_edit) {

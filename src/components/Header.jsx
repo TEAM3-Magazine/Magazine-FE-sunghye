@@ -16,6 +16,7 @@ const Header = (props) => {
   const dispatch = useDispatch();
 
   const isLogin = useSelector((state) => state.user);
+  // !! true, false 로 바꿔준다 .
   const hasToken = sessionStorage.getItem("token") ? true : false;
 
   const goToSignIn = () => {
