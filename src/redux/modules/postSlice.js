@@ -72,9 +72,10 @@ export const updatePostAxios = createAsyncThunk(
 // 포스트 삭제
 export const deletePostAxios = createAsyncThunk(
   "post/deletePostAxios",
-  async ({ post_id }, { dispatch }) => {
+  async ({ post_author, post_id, navigate }, { dispatch, getState }) => {
+    const user_id = getState().user.user_info.user_id;
     await Postapi.deletePost({ post_id, dispatch });
-    return { post_id };
+    return { post_author, post_id, user_id };
   }
 );
 
@@ -120,10 +121,12 @@ export const postSlice = createSlice({
       state.is_loading = false;
     },
     [deletePostAxios.fulfilled]: (state, action) => {
-      const post_id = action.payload.post_id;
-      state.data = state.data.filter((post) => {
-        return post.post_id !== post_id;
-      });
+      const { post_author, post_id, user_id } = action.payload;
+      if (post_author === user_id) {
+        state.data = state.data.filter((post) => {
+          return post.post_id !== post_id;
+        });
+      }
 
       state.is_loading = false;
     },
