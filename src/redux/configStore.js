@@ -2,10 +2,8 @@ import { configureStore } from "@reduxjs/toolkit";
 import userReducer from "./modules/userSlice";
 import postReducer from "./modules/postSlice";
 import imageReducer from "./modules/imageSlice";
-import logger from "redux-logger";
-import { createBrowserHistory } from "history";
+// import logger from "redux-logger";
 
-export const history = createBrowserHistory();
 export const store = configureStore({
   reducer: {
     post: postReducer,
@@ -13,7 +11,7 @@ export const store = configureStore({
     image: imageReducer,
   },
   middleware: (getDefaultMiddleware) =>
-    getDefaultMiddleware({ serializableCheck: false }).concat(logger),
+    getDefaultMiddleware({ serializableCheck: false }),
   // middleware: (getDefaultMiddleware) =>
-  //   getDefaultMiddleware({ serializableCheck: false }),
+  //   getDefaultMiddleware({ serializableCheck: false }).concat(logger),
 });

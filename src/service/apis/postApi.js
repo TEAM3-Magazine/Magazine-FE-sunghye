@@ -1,5 +1,4 @@
 import axios from "axios";
-import { getPostAxios } from "../../redux/modules/postSlice";
 
 class PostApi {
   constructor() {
@@ -51,7 +50,7 @@ class PostApi {
   }
 
   // 포스트 삭제
-  async deletePost({ post_id, dispatch }) {
+  async deletePost({ post_id }) {
     const deletepostConfig = {
       method: "delete",
       url: `${this.base}/api/post/${post_id}`,
@@ -63,9 +62,7 @@ class PostApi {
 
     return axios(deletepostConfig)
       .then((res) => {
-        console.log(res);
         alert("your post has been deleted");
-        // dispatch(getPostAxios());
         return res.data;
       })
       .catch((err) => {
@@ -91,12 +88,10 @@ class PostApi {
       .then((res) => {
         alert("your post has been updated");
         navigate("/", { replace: true });
-        // dispatch(getPostAxios());
         return res.data;
       })
       .catch((err) => {
         alert("Update could not complete");
-        // alert(err.response.data.msg);
         console.log(err.response);
         return false;
       });

@@ -1,4 +1,4 @@
-import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
+import { createAsyncThunk, createSlice, current } from "@reduxjs/toolkit";
 // import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query";
 import PostApi from "../../service/apis/postApi";
 import FBstorage from "../../service/firebase/storage";
@@ -34,9 +34,6 @@ export const addPostAxios = createAsyncThunk(
       postData: { ...postData, image_url: url },
       navigate,
     });
-
-    // return { response, postData };
-    // ...........ㅠㅠㅠ...
     dispatch(getPostAxios());
   }
 );
@@ -77,7 +74,6 @@ export const deletePostAxios = createAsyncThunk(
   "post/deletePostAxios",
   async ({ post_id }, { dispatch }) => {
     await Postapi.deletePost({ post_id, dispatch });
-    dispatch(deletePost(post_id));
     return { post_id };
   }
 );
@@ -115,16 +111,6 @@ export const postSlice = createSlice({
       const postlist = action.payload;
       state.data = postlist;
     },
-    addPost: (state, action) => {
-      const postlist = action.payload;
-      console.log(postlist);
-    },
-    deletePost: (state, action) => {
-      const post_id = action.payload;
-      state.data = state.data.filter((post) => {
-        return post.post_id !== post_id;
-      });
-    },
   },
   extraReducers: {
     [getPostAxios.fulfilled]: (state, action) => {
@@ -134,13 +120,17 @@ export const postSlice = createSlice({
       state.is_loading = false;
     },
     [deletePostAxios.fulfilled]: (state, action) => {
+      const post_id = action.payload.post_id;
+      state.data = state.data.filter((post) => {
+        return post.post_id !== post_id;
+      });
+
       state.is_loading = false;
     },
     [updatePostAxios.fulfilled]: (state, action) => {
       const { postData, post_id, url } = action.payload;
       const postId = Number(post_id);
       const idx = state.data.findIndex((p) => p.post_id === postId);
-      console.log(idx);
       state.data[idx] = {
         ...state.data[idx],
         contents: postData.contents,
@@ -152,7 +142,6 @@ export const postSlice = createSlice({
       const { user_id, post_id } = action.payload;
       const idx = state.data.findIndex((p) => p.post_id === post_id);
       state.data[idx].post_like.push(user_id);
-
       state.is_loading = false;
     },
     [likeDownAxios.fulfilled]: (state, action) => {
